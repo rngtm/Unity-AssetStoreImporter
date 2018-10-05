@@ -46,7 +46,9 @@ namespace AssetStoreImporter
                     autoResize = false,
                     width = 80f,
                     sortingArrowAlignment = TextAlignment.Right,
-                }, 
+                },
+                new MultiColumnHeaderState.Column() { // empty header (for reset TextAlignment)
+                },
             })))
         {
         }
@@ -101,6 +103,8 @@ namespace AssetStoreImporter
                         EditorGUI.BeginDisabledGroup(true); // gray out
                         EditorGUI.LabelField(rect, item.FileSize, labelStyle);
                         EditorGUI.EndDisabledGroup();
+                        break;
+                    case 4: // empty header
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(columnIndex), columnIndex, null);
@@ -171,6 +175,9 @@ namespace AssetStoreImporter
                     break;
                 case 3:
                     orderedEnumerable = ascending ? items.OrderBy(item => item.FileSize) : items.OrderByDescending(item => item.FileSize);
+                    break;
+                case 4: // empty header
+                    orderedEnumerable = null;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
